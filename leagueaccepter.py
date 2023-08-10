@@ -33,7 +33,6 @@ async def connect(connection):
         await lobbycreator(connection)"""
     os.system('cls')
     while True:
-        gamephase = await connection.request('get', '/lol-gameflow/v1/gameflow-phase')
         currentphase = await gamephase.json()
         if currentphase == "None":
             print("Not selected gamemode yet")
