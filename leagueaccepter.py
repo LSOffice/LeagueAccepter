@@ -33,13 +33,13 @@ async def connect(connection):
         await lobbycreator(connection)"""
     os.system('cls')
     while True:
+        gamephase = await connection.request('get', '/lol-gameflow/v1/gameflow-phase')
         currentphase = await gamephase.json()
         if currentphase == "None":
             print("Not selected gamemode yet")
             time.sleep(1)
             os.system('cls')
         if currentphase == 'Lobby' or currentphase == 'Matchmaking':
-            gamephase = await connection.request('get', '/lol-gameflow/v1/gameflow-phase')
             await connection.request('post', '/lol-lobby/v2/lobby/matchmaking/search')
             while True:
                 print('Waiting for queue')
