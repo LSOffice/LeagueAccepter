@@ -1,3 +1,15 @@
+@echo off
+set "batchFilePath=%~dp0init.py"
+
+REM Check if the registry entry already exists
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "LAAutoLaunch" | find /i "LAAutoLaunch" >nul
+if %errorlevel% equ 0 (
+    echo Registry entry already exists. Skipping.
+) else (
+    REM Add the registry entry
+    reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "LAAutoLaunch" /t REG_SZ /d "python.exe \"%batchFilePath%\"" /f
+    echo Registry entry added successfully.
+)
 goto :DOES_PYTHON_EXIST
 
 :DOES_PYTHON_EXIST
@@ -7,8 +19,7 @@ goto :EOF
 
 :PYTHON_DOES_NOT_EXIST
 echo Python is not installed on your system.
-echo Now opeing the download URL.
-start "" "https://www.python.org/downloads/windows/"
+python3
 goto :EOF
 
 :PYTHON_DOES_EXIST
